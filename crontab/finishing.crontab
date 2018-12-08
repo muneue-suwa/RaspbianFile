@@ -1,0 +1,3 @@
+@reboot sudo passwd -l root
+@reboot sudo passwd -l pi
+@reboot sudo crontab -r

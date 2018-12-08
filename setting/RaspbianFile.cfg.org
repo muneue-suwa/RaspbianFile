@@ -1,0 +1,3 @@
+NEW_USER="hoge"
+ADDITIONAL_APPLICATIONS="vim git"
+PUBLICKEY_FILENAME="setting/id_rsa.pub"
