@@ -28,8 +28,8 @@ sudo apt autoclean
 sudo apt clean
 
 # Install Applications
-sudo apt install ufw
-sudo apt install $ADDITIONAL_APPLICATIONS
+sudo apt install -y ufw
+sudo apt install -y $ADDITIONAL_APPLICATIONS
 
 # Create NewUser
 sudo adduser $NEW_USER
