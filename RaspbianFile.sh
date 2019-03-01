@@ -5,10 +5,10 @@ RASPBIANFILE_SH_FILENAME=`readlink -f $0`
 RASPBIANFILE_SH_DIRNAME=`dirname $RASPBIANFILE_SH_FILENAME`
 
 # Read setting setting file
-if [ -f $RASPBIANFILE_SH_DIRNAME/setting/RaspbinaFile.cfg ]; then
-    . $RASPBIANFILE_SH_DIRNAME/setting/RaspbinaFile.cfg
+if [ -f $RASPBIANFILE_SH_DIRNAME/setting/RaspbianFile.cfg ]; then
+    . $RASPBIANFILE_SH_DIRNAME/setting/RaspbianFile.cfg
 else
-    echo "Make the RaspbinaFile.cfg"
+    echo "Make the RaspbianFile.cfg"
     exit 1
 fi
 
