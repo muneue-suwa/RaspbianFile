@@ -59,6 +59,7 @@ sudo sed -e "/#Rfile# PermitRootLogin/\i PermitRootLogin no" /etc/ssh/sshd_confi
 sudo sed -e "/#Rfile# PermitEmptyPasswords/\i PermitEmptyPasswords no" /etc/ssh/sshd_config
 ## Copy wrapup_raspbianfile.sh to the home directory
 sudo cp $RASPBIANFILE_SH_DIRNAME/wrapup_raspbianfile.sh /home/$NEW_USER/
+sudo chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/wrapup_raspbianfile.sh
 
 # Set crontab for finishing
 sudo crontab $RASPBIANFILE_SH_DIRNAME/crontab/finishing.crontab
