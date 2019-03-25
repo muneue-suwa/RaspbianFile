@@ -52,11 +52,11 @@ sudo chmod 600 /home/$NEW_USER/.ssh/authorized_keys
 ## Make a Backup
 sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.org
 ## Comment Out Default Setting
-sudo sed -e "s/PermitRootLogin/#Rfile# PermitRootLogin/g" /etc/ssh/sshd_config
-sudo sed -e "s/PermitEmptyPasswords/#Rfile# PermitEmptyPasswords/g" /etc/ssh/sshd_config
+sudo sed -i -e "s/PermitRootLogin/#Rfile# PermitRootLogin/g" /etc/ssh/sshd_config
+sudo sed -i -e "s/PermitEmptyPasswords/#Rfile# PermitEmptyPasswords/g" /etc/ssh/sshd_config
 ## Set The New Setting
-sudo sed -e "/#Rfile# PermitRootLogin/\i PermitRootLogin no" /etc/ssh/sshd_config
-sudo sed -e "/#Rfile# PermitEmptyPasswords/\i PermitEmptyPasswords no" /etc/ssh/sshd_config
+sudo sed -i -e "/^#Rfile# PermitRootLogin$/a PermitRootLogin no" /etc/ssh/sshd_config
+sudo sed -i -e "/^#Rfile# PermitEmptyPasswords$/a PermitEmptyPasswords no" /etc/ssh/sshd_config
 
 # Set crontab for finishing
 sudo crontab $RASPBIANFILE_SH_DIRNAME/crontab/finishing.crontab
