@@ -20,6 +20,13 @@ else
     exit 1
 fi
 
+# Check wpa_supplicant.conf
+if [ -f $RASPBIANFILE_SH_DIRNAME/setting/wpa_supplicant.conf ]; then
+    echo "wpa_supplicant.conf was found"
+    cat $RASPBIANFILE_SH_DIRNAME/setting/wpa_supplicant.conf \
+        | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf
+fi
+
 # Update Raspbian
 sudo apt update
 sudo apt upgrade -y
