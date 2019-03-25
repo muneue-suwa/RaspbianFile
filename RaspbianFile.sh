@@ -5,10 +5,10 @@ RASPBIANFILE_SH_FILENAME=`readlink -f $0`
 RASPBIANFILE_SH_DIRNAME=`dirname $RASPBIANFILE_SH_FILENAME`
 
 # Read setting setting file
-if [ -f $RASPBIANFILE_SH_DIRNAME/setting/RaspbinaFile.cfg ]; then
-    . $RASPBIANFILE_SH_DIRNAME/setting/RaspbinaFile.cfg
+if [ -f $RASPBIANFILE_SH_DIRNAME/setting/RaspbianFile.cfg ]; then
+    . $RASPBIANFILE_SH_DIRNAME/setting/RaspbianFile.cfg
 else
-    echo "Make the RaspbinaFile.cfg"
+    echo "Make the RaspbianFile.cfg"
     exit 1
 fi
 
@@ -20,6 +20,13 @@ else
     exit 1
 fi
 
+# Check wpa_supplicant.conf
+if [ -f $RASPBIANFILE_SH_DIRNAME/setting/wpa_supplicant.conf ]; then
+    echo "wpa_supplicant.conf was found"
+    cat $RASPBIANFILE_SH_DIRNAME/setting/wpa_supplicant.conf \
+        | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf
+fi
+
 # Update Raspbian
 sudo apt update
 sudo apt upgrade -y
@@ -28,8 +35,8 @@ sudo apt autoclean
 sudo apt clean
 
 # Install Applications
-sudo apt install ufw
-sudo apt install $ADDITIONAL_APPLICATIONS
+sudo apt install -y ufw
+sudo apt install -y $ADDITIONAL_APPLICATIONS
 
 # Create NewUser
 sudo adduser $NEW_USER
@@ -52,11 +59,11 @@ sudo chmod 600 /home/$NEW_USER/.ssh/authorized_keys
 ## Make a Backup
 sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.org
 ## Comment Out Default Setting
-sudo sed -e "s/PermitRootLogin/#Rfile# PermitRootLogin/g" /etc/ssh/sshd_config
-sudo sed -e "s/PermitEmptyPasswords/#Rfile# PermitEmptyPasswords/g" /etc/ssh/sshd_config
+sudo sed -i -e "s/PermitRootLogin/#Rfile# PermitRootLogin/g" /etc/ssh/sshd_config
+sudo sed -i -e "s/PermitEmptyPasswords/#Rfile# PermitEmptyPasswords/g" /etc/ssh/sshd_config
 ## Set The New Setting
-sudo sed -e "/#Rfile# PermitRootLogin/\i PermitRootLogin no" /etc/ssh/sshd_config
-sudo sed -e "/#Rfile# PermitEmptyPasswords/\i PermitEmptyPasswords no" /etc/ssh/sshd_config
+sudo sed -i -e "/^#Rfile# PermitRootLogin$/a PermitRootLogin no" /etc/ssh/sshd_config
+sudo sed -i -e "/^#Rfile# PermitEmptyPasswords$/a PermitEmptyPasswords no" /etc/ssh/sshd_config
 ## Copy wrapup_raspbianfile.sh to the home directory
 sudo cp $RASPBIANFILE_SH_DIRNAME/wrapup_raspbianfile.sh /home/$NEW_USER/
 sudo chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/wrapup_raspbianfile.sh
