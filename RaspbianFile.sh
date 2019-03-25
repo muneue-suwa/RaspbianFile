@@ -59,11 +59,11 @@ sudo chmod 600 /home/$NEW_USER/.ssh/authorized_keys
 ## Make a Backup
 sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.org
 ## Comment Out Default Setting
-sudo sed -i -e "s/PermitRootLogin/#Rfile# PermitRootLogin/g" /etc/ssh/sshd_config
-sudo sed -i -e "s/PermitEmptyPasswords/#Rfile# PermitEmptyPasswords/g" /etc/ssh/sshd_config
+sudo sed -i -e "s/PermitRootLogin/#ByRaspbianFile# PermitRootLogin/g" /etc/ssh/sshd_config
+sudo sed -i -e "s/PermitEmptyPasswords/#ByRaspbianFile# PermitEmptyPasswords/g" /etc/ssh/sshd_config
 ## Set The New Setting
-sudo sed -i -e "/^#Rfile# PermitRootLogin$/a PermitRootLogin no" /etc/ssh/sshd_config
-sudo sed -i -e "/^#Rfile# PermitEmptyPasswords$/a PermitEmptyPasswords no" /etc/ssh/sshd_config
+sudo sed -i -e "/^#*ByRaspbianFile# PermitRootLogin .*$/a PermitRootLogin no" /etc/ssh/sshd_config
+sudo sed -i -e "/^#*ByRaspbianFile# PermitEmptyPasswords .*$/a PermitEmptyPasswords no" /etc/ssh/sshd_config
 ## Copy wrapup_raspbianfile.sh to the home directory
 sudo cp $RASPBIANFILE_SH_DIRNAME/wrapup_raspbianfile.sh /home/$NEW_USER/
 sudo chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/wrapup_raspbianfile.sh
