@@ -27,30 +27,30 @@ if [ -f $RASPBIANFILE_SH_DIRNAME/setting/wpa_supplicant.conf ]; then
         | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf
 fi
 
-# Update Raspbian
+# NewUser
+## Create NewUser
+sudo adduser $NEW_USER
+## Add Groups to NewUser
+PI_GROUPS=$(groups)
+NEW_USER_GROUP=$(echo $PI_GROUPS | tr " " ",")
+sudo usermod -G $NEW_USER_GROUP $NEW_USER
+
+# APT
+## Update Raspbian
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
 sudo apt autoclean
 sudo apt clean
-
-# Install Applications
+## Install Applications
 sudo apt install -y ufw
 sudo apt install -y $ADDITIONAL_APPLICATIONS
 
-# Create NewUser
-sudo adduser $NEW_USER
-
-# Add Groups to NewUser
-PI_GROUPS=$(groups)
-NEW_USER_GROUP=$(echo $PI_GROUPS | tr " " ",")
-sudo usermod -G $NEW_USER_GROUP $NEW_USER
-
-# Copy The Public Key
+# SSH key
+## Copy The Public Key
 sudo mkdir -p /home/$NEW_USER/.ssh
 sudo cp $RASPBIANFILE_SH_DIRNAME/$PUBLICKEY_FILENAME /home/$NEW_USER/.ssh/authorized_keys
-
-# Change owner, group, and permisson of Public Key
+## Change owner, group, and permisson of Public Key
 sudo chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/.ssh
 sudo chmod 700 /home/$NEW_USER/.ssh
 sudo chmod 600 /home/$NEW_USER/.ssh/authorized_keys
