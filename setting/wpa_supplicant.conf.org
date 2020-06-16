@@ -1,3 +1,5 @@
+# Use wpa_passphrase command
+# wpa_passphrase ssid psk
 network={
 	ssid="ssid"
 	#psk="password"
