@@ -4,11 +4,11 @@
 RASPBIANFILE_SH_FILENAME=`readlink -f $0`
 RASPBIANFILE_SH_DIRNAME=`dirname $RASPBIANFILE_SH_FILENAME`
 
-# Read setting setting file
-if [ -f $RASPBIANFILE_SH_DIRNAME/setting/RaspbianFile.cfg ]; then
-    . $RASPBIANFILE_SH_DIRNAME/setting/RaspbianFile.cfg
+# Read setting file
+if [ -f $RASPBIANFILE_SH_DIRNAME/settings/RaspbianFile.cfg ]; then
+    . $RASPBIANFILE_SH_DIRNAME/settings/RaspbianFile.cfg
 else
-    echo "Make the RaspbianFile.cfg"
+    echo "Create the RaspbianFile.cfg"
     exit 1
 fi
 
@@ -21,9 +21,9 @@ else
 fi
 
 # Check wpa_supplicant.conf
-if [ -f $RASPBIANFILE_SH_DIRNAME/setting/wpa_supplicant.conf ]; then
+if [ -f $RASPBIANFILE_SH_DIRNAME/settings/wpa_supplicant.conf ]; then
     echo "wpa_supplicant.conf was found"
-    cat $RASPBIANFILE_SH_DIRNAME/setting/wpa_supplicant.conf \
+    cat $RASPBIANFILE_SH_DIRNAME/settings/wpa_supplicant.conf \
         | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf
 fi
 
@@ -74,5 +74,5 @@ sudo crontab $RASPBIANFILE_SH_DIRNAME/crontab/finishing.crontab
 # Remove RaspbianFile from /home/pi/
 rm -rf $RASPBIANFILE_SH_DIRNAME
 
-# Reboot
-sudo reboot
+# Reboot message
+echo "Reboot Raspberry Pi"
