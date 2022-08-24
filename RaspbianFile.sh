@@ -8,7 +8,7 @@ RASPBIANFILE_SH_DIRNAME=`dirname $RASPBIANFILE_SH_FILENAME`
 if [ -f $RASPBIANFILE_SH_DIRNAME/settings/RaspbianFile.cfg ]; then
     . $RASPBIANFILE_SH_DIRNAME/settings/RaspbianFile.cfg
 else
-    echo "Create the RaspbianFile.cfg"
+    echo "Create settings file: RaspbianFile.cfg"
     exit 1
 fi
 
@@ -16,15 +16,8 @@ fi
 if [ -f $RASPBIANFILE_SH_DIRNAME/$PUBLICKEY_FILENAME ]; then
     echo "Public Key was checked"
 else
-    echo "Please check $PUBLICKEY_FILENAME"
+    echo "Create public key: $PUBLICKEY_FILENAME"
     exit 1
-fi
-
-# Check wpa_supplicant.conf
-if [ -f $RASPBIANFILE_SH_DIRNAME/settings/wpa_supplicant.conf ]; then
-    echo "wpa_supplicant.conf was found"
-    cat $RASPBIANFILE_SH_DIRNAME/settings/wpa_supplicant.conf \
-        | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf
 fi
 
 # NewUser
@@ -32,19 +25,9 @@ fi
 sudo adduser $NEW_USER
 ## Add Groups to NewUser
 PI_GROUPS=$(groups)
-NEW_USER_GROUP=$(echo $PI_GROUPS | tr " " ",")
+NEW_USER_GROUP=$(echo ${PI_GROUPS//$USER/} | tr " " ",")
+# NEW_USER_GROUP=$(echo $PI_GROUPS | tr " " ",")
 sudo usermod -G $NEW_USER_GROUP $NEW_USER
-
-# APT
-## Update Raspbian
-sudo apt update
-sudo apt upgrade -y
-sudo apt autoremove -y
-sudo apt autoclean
-sudo apt clean
-## Install Applications
-sudo apt install -y ufw
-sudo apt install -y $ADDITIONAL_APPLICATIONS
 
 # SSH key
 ## Copy The Public Key
@@ -68,11 +51,8 @@ sudo sed -i -e "/^#*ByRaspbianFile# PermitEmptyPasswords .*$/a PermitEmptyPasswo
 sudo cp $RASPBIANFILE_SH_DIRNAME/wrapup_raspbianfile.sh /home/$NEW_USER/
 sudo chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/wrapup_raspbianfile.sh
 
-# Set crontab for finishing
-sudo crontab $RASPBIANFILE_SH_DIRNAME/crontab/finishing.crontab
-
 # Remove RaspbianFile from /home/pi/
 rm -rf $RASPBIANFILE_SH_DIRNAME
 
-# Reboot message
-echo "Reboot Raspberry Pi"
+# Completion message
+echo "Complited!"
