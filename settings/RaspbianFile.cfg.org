@@ -1,2 +1,0 @@
-NEW_USER="hoge"
-PUBLICKEY_FILENAME="setting/id_rsa.pub"
