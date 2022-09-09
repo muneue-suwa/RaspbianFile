@@ -28,7 +28,7 @@ sudo adduser $NEW_USER
 CURRENT_USERS_GROUPS=$(groups)
 
 # Add the new user to the current user's groups
-NEW_USER_GROUP=$(echo ${CURRENT_USERS_GROUPS//$USER/} | sed s/sudo\ // | tr " " ",")
+NEW_USER_GROUP=$(echo ${CURRENT_USERS_GROUPS//$USER/} | sed s/sudo\ //  | sed s/sudo// | tr " " ",")
 echo "$NEW_USER's secondary groups: $NEW_USER_GROUP"
 sudo usermod -aG $NEW_USER_GROUP $NEW_USER
 
