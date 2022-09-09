@@ -1,4 +1,4 @@
-# Ubuntu New User Creater
+# Create Ubuntu New User
 
 Ubuntu 22.04にて，新しいユーザを作成するシェルスクリプト
 
