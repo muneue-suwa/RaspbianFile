@@ -1,24 +1,22 @@
-# RaspbianFile
+# Ubuntu New User Creater
 
-## What is RaspbianFile
+Ubuntu 22.04にて，新しいユーザを作成するシェルスクリプト
 
-This application sets up `Raspberry Pi OS` automatically such as `DockerFile`.
+## 使い方
 
-## Usage
+1. SSH用の公開鍵をコピーしておく
+2. ユーザ名と公開鍵のファイル名を指定して，以下のコマンドを実行する．公開鍵のファイル名は，相対パスでも問題ないはずである．
 
-1. Create public key and copy it to `settings/`.
     ```bash
-    ssh-keygen  # Create ssh-key
-    cp /to/the/path/your-ssh-key.pub settings/  # Copy created ssh-key to settings/
+    bash RaspbianFile.sh alice public-key.pub
+    # この例では，ユーザ名は alice ，公開鍵のファイル名は public-key.pub である．
     ```
-2. Create and edit `NEW_USER`, `PUBLICKEY_FILENAME` in `RaspbianFile.cfg`.
 
-## How this works
+## 機能
 
-- Create new user
-- Set up public key for ssh-login. Copy it to Raspberry Pi OS and set up the permission.
+1. 新規ユーザの作成
+2. カレントユーザと同じグループ（ただし，`sudo`を除く）に追加する
+3. 公開鍵を`/home/new_username/.ssh/authorized_keys`にコピーする
+4. 公開鍵の権限設定を行う
 
-## 人間がやること
-
-- パスワードによるsshログインを無効化する．
-- `raspi-config` - `Localisation Options`を設定する．
+スクリプトは，実行後も公開鍵の削除を行わないため，手動で削除する．
