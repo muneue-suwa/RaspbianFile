@@ -34,7 +34,7 @@ sudo usermod -aG $NEW_USER_GROUP $NEW_USER
 
 # Copy the public key
 sudo mkdir -p /home/$NEW_USER/.ssh
-sudo cp $CREATE_NEW_USER_SH_DIRNAME/$PUBLICKEY_FILENAME /home/$NEW_USER/.ssh/authorized_keys
+sudo cp $PUBLICKEY_FILENAME /home/$NEW_USER/.ssh/authorized_keys
 
 # Change owner, group, and permisson of Public Key
 sudo chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/.ssh
